@@ -1,6 +1,6 @@
 <template>
     <div>
         homepage
-        <el-button type="primary">pet alliance</el-button>
+        <router-link to="/login">login</router-link>
     </div>
 </template>

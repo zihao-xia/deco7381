@@ -5,16 +5,28 @@
             :label-position="labelPosition"
             :model="form"
             label-width="120px">
-                <div><img src="../assets/Logo.png" alt="Logo" width="100"></div>
-                <br>
+                <el-row>
+                    <el-col :span="4"></el-col>
+                    <el-col :span="16">
+                        <div style="margin-bottom: 40px;"><img src="../assets/logo_with_title.png" alt="Logo" style="width: 100%;"></div>
+                    </el-col>
+                </el-row>
                 <el-form-item label="Email">
-                    <el-input v-model="form.email" :prefix-icon="User" placeholder="Enter your UQ Email" />
+                    <el-input v-model="form.email" :prefix-icon="User" size="large" placeholder="Enter your UQ Email" />
                 </el-form-item>
                 <el-form-item label="Password">
-                    <el-input v-model="form.password" type="password" :prefix-icon="Lock" placeholder="Password" />
+                    <el-input v-model="form.password" type="password" :prefix-icon="Lock" size="large" placeholder="Password" />
                 </el-form-item>
+                <el-row justify="space-between" style="margin-bottom: 40px;">
+                    <el-col :span="7">
+                        <div>No account? Sign up</div>
+                    </el-col>
+                    <el-col :span="6">
+                        <div>Forget password</div>
+                    </el-col>
+                </el-row>
                 <el-form-item>
-                    <el-button color="#b026e3" @click="login" style="width: 100%;">Login</el-button>
+                    <el-button id="loginbtn" @click="login" color="#b026e3"><b>Login</b></el-button>
                 </el-form-item>
             </el-form>
         </div>
@@ -52,6 +64,11 @@ const login = () => {
     border-radius: 8px;
     background: white;
     margin: 250px auto;
-    padding: 50px 150px;
+    padding: 100px 150px 0;
+}
+
+#loginbtn {
+    width: 100%;
+    padding: 25px 0;
 }
 </style>
