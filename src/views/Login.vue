@@ -18,10 +18,10 @@
                     <el-input v-model="form.password" type="password" :prefix-icon="Lock" size="large" placeholder="Password" />
                 </el-form-item>
                 <el-row justify="space-between" style="margin-bottom: 40px;">
-                    <el-col :span="7">
+                    <el-col :span="8">
                         <div>No account? Sign up</div>
                     </el-col>
-                    <el-col :span="6">
+                    <el-col :span="7">
                         <div>Forget password</div>
                     </el-col>
                 </el-row>
@@ -59,8 +59,8 @@ const login = () => {
 }
 
 #form {
-    width: 600px;
-    height: 600px;
+    width: 700px;
+    height: 700px;
     border-radius: 8px;
     background: white;
     margin: 250px auto;
