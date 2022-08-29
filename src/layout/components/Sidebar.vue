@@ -1,6 +1,6 @@
 <template>
-  <el-row class="slidebar">
-    <el-col class="sidebar-container">
+  <el-row class="sidebar">
+    <el-col class="sidebar-container" :style="`width:${open ? '220' : '0'}px;`">
       <el-scrollbar wrap-class="scrollbar-wrapper">
         <el-menu
           class="el-menu-vertical-demo"
@@ -9,12 +9,23 @@
           text-color="#fff"
           active-text-color="#fff"
         >
-        <el-row>
-          <el-col id="menu-title">
-            <span><img src="@/assets/Logo.png" alt="logo" style="width: 50px;"></span>
-            <p>Teamwork</p>
-          </el-col>
-        </el-row>
+          <el-row>
+            <el-col id="menu-title">
+              <span><img src="@/assets/Logo.png" alt="logo" style="width: 50px;"></span>
+              <p>Teamwork</p>
+            </el-col>
+          </el-row>
+          <!-- <div v-for="(item, i) in routers" :key="i">
+            <el-submenu v-if="item.children" :index="item.path" class="hide-tile">
+              <template #title>
+                <span>{{ item.name }}</span>
+              </template>
+              <el-menu-item v-for="(children, index) in item.children" :key="index" :index="item.path + '/' +children.path">{{ children.name }}</el-menu-item>
+            </el-submenu>
+            <el-menu-item v-else :index="item.path">
+              <template #title>{{ item.name }}</template>
+            </el-menu-item>
+          </div> -->
           <el-menu-item index="1">
             <el-icon><HomeFilled /></el-icon>
             <span>Home</span>
@@ -25,7 +36,7 @@
           </el-menu-item>
           <el-menu-item index="3">
             <el-icon><DataBoard /></el-icon>
-            <span>Your Board</span>
+            <span>My Board</span>
           </el-menu-item>
           <el-sub-menu index="4">
             <template #title>
@@ -61,6 +72,12 @@ import { mapGetters } from 'vuex'
 
 export default {
   name: 'Sidebar',
+  props: {
+    open: {
+      type: Boolean,
+      default: true
+    }
+  },
   data(){
     return {
       workspaces: [
@@ -71,9 +88,13 @@ export default {
   },
   computed: {
       ...mapGetters([
-      'routes'
+      'routers'
     ])
-  }
+  },
+  // mounted() {
+  //   this.$store.dispatch('routers/getRouters')
+  //   console.log(this.routers)
+  // }
 }
 </script>
 

@@ -1,24 +1,48 @@
 <template>
     <el-row class="app-wrapper">
         <el-container>
-            <el-aside width="220px">
-                <sidebar />
+            <!-- Sidebar -->
+            <el-aside :width="open? '220px' : '0px'">
+                <sidebar :open="open" />
             </el-aside>
             <el-container>
-                <el-header height="50px">header</el-header>
-                <el-main>main</el-main>
+                <!-- Header -->
+                <el-header height="50px">
+                    <navbar @switchSidebar="switchSidebar" />
+                </el-header>
+                <div class="main-wrapper">
+                    <!-- Main -->
+                    <el-main>
+                        main
+                    </el-main>
+                    <!-- Dashboard -->
+                    <dashboard />
+                </div>
             </el-container>
         </el-container>
   </el-row>
 </template>
 
 <script>
-import Sidebar from './components/Sidebar.vue'
+import { Sidebar, Navbar, Dashboard } from './components/'
 
 export default {
     name: 'Layout',
     components: {
-        Sidebar
+        Sidebar,
+        Navbar,
+        Dashboard
+    },
+    data() {
+        return {
+            open: true
+        }
+    },
+    methods: {
+        switchSidebar() {
+            this.open = !this.open
+            console.log(this.open)
+        }
     }
 }
 </script>
@@ -28,5 +52,18 @@ export default {
   position: relative;
   height: 100%;
   width: 100%;
+}
+
+.el-aside {
+      transition: 0.5s
+  }
+
+.el-header {
+    padding: 0;
+}
+
+.main-wrapper {
+    height: 100%;
+    display: flex;
 }
 </style>
