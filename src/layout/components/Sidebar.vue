@@ -26,27 +26,27 @@
               <template #title>{{ item.name }}</template>
             </el-menu-item>
           </div> -->
-          <el-menu-item index="1">
+          <el-menu-item index="/">
             <el-icon><HomeFilled /></el-icon>
             <span>Home</span>
           </el-menu-item>
-          <el-menu-item index="2">
+          <el-menu-item index="">
             <el-icon><Bell /></el-icon>
             <span>Notification</span>
           </el-menu-item>
-          <el-menu-item index="3">
+          <el-menu-item index="">
             <el-icon><DataBoard /></el-icon>
             <span>My Board</span>
           </el-menu-item>
-          <el-sub-menu index="4">
+          <el-sub-menu index="">
             <template #title>
               <span class="sub-menu-title">Show More</span>
             </template>
             <el-menu-item-group>
-              <el-menu-item index="4-1">
+              <el-menu-item index="">
                 <el-icon><Trophy /></el-icon>Goals
               </el-menu-item>
-              <el-menu-item index="4-2">
+              <el-menu-item index="">
                 <el-icon><ChatLineRound /></el-icon>Messages
               </el-menu-item>
             </el-menu-item-group>

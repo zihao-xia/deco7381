@@ -1,25 +1,23 @@
 <template>
-    <div id="dashboard">
-        <div id="title">
-            <h1>Team Dashboard</h1>
-        </div>
-        <div id="goals">
-            <ul id="goal-list">
-                <li v-for="goal in goals" :key="goal" class="goal">
-                    <div class="goal-title">
-                        <span class="goal-name">{{ goal.name }}</span>
-                        <span class="goal-due">Due date: {{ goal.due }}</span>
-                    </div>
-                    <div class="goal-description">Description:
-                        <div>{{ goal.description }}</div>
-                    </div>
-                </li>
-            </ul>
-        </div>
-        <div id="score">
-            <el-link id="score-title" :underline="false" href="#">Team Member & Team Health Score</el-link>
-            <HealthScoreChart />
-        </div>
+    <div id="title">
+        <h1>Team Dashboard</h1>
+    </div>
+    <div id="goals">
+        <el-scrollbar id="goal-list">
+            <div v-for="goal in goals" :key="goal" class="goal">
+                <div class="goal-title">
+                    <span class="goal-name">{{ goal.name }}</span>
+                    <span class="goal-due">Due date: {{ goal.due }}</span>
+                </div>
+                <div class="goal-description">Description:
+                    <div>{{ goal.description }}</div>
+                </div>
+            </div>
+        </el-scrollbar>
+    </div>
+    <div id="score">
+        <el-link id="score-title" :underline="false" href="/healthScore">Team Member & Team Health Score</el-link>
+        <HealthScoreChart />
     </div>
 </template>
 
@@ -41,20 +39,10 @@ export default {
           {name: 'Team Goal 6', due: 'xx/xx/xxxx', description: 'This is a description'}]
       }
   }
-  
 }
 </script>
 
 <style scoped>
-#dashboard {
-    width: 40%;
-    border-left: 1px solid var(--el-border-color);
-    display: flex;
-    flex-direction: column;
-    justify-content: start;
-    align-items: center;
-}
-
 #title, #goals {
     width: 80%;
 }
@@ -79,7 +67,7 @@ export default {
 
 #goal-list {
     height: 520px;
-    overflow-y: scroll;
+    padding: 0 5px;
 }
 
 .goal {

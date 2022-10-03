@@ -13,10 +13,12 @@
                 <div class="main-wrapper">
                     <!-- Main -->
                     <el-main>
-                        main
+                        <router-view></router-view>
                     </el-main>
                     <!-- Dashboard -->
-                    <dashboard />
+                    <div id="dashboard" v-show="!$route.meta.hideDashboard">
+                        <dashboard />
+                    </div>
                 </div>
             </el-container>
         </el-container>
@@ -24,7 +26,7 @@
 </template>
 
 <script>
-import { Sidebar, Navbar, Dashboard } from './components/'
+import { Sidebar, Navbar, Dashboard } from '../layout/components'
 
 export default {
     name: 'Layout',
@@ -41,7 +43,6 @@ export default {
     methods: {
         switchSidebar() {
             this.open = !this.open
-            console.log(this.open)
         }
     }
 }
@@ -65,5 +66,14 @@ export default {
 .main-wrapper {
     height: 100%;
     display: flex;
+}
+
+#dashboard {
+    width: 40%;
+    border-left: 1px solid var(--el-border-color);
+    display: flex;
+    flex-direction: column;
+    justify-content: start;
+    align-items: center;
 }
 </style>

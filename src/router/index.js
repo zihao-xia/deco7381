@@ -4,11 +4,21 @@ import Layout from '../layout/index.vue'
 export const routes = [
     {
         path: '/',
-        name: '<el-icon><HomeFilled /></el-icon>Home',
+        name: 'Home',
         component: Layout,
         meta: {
             title: 'Home'
-        }
+        }, children: [
+            {
+                path: '/healthScore',
+                name: 'Health Score',
+                meta: {
+                    title: 'Health Score',
+                    hideDashboard: true
+                },
+                component: () => import('../pages/healthscore.vue')
+            }
+        ]
     },
     {
         path: '/login',
