@@ -20,11 +20,11 @@
                 </div>
                 <div class="content">
                     <div class="title">In Progress</div>
-                    <div class="number" v-text="inProgress" style="color: #85BB7A"></div>
+                    <div class="number" v-text="inProgress" style="color: #FF9553"></div>
                 </div>
                 <div class="content">
                     <div class="title">Done</div>
-                    <div class="number" v-text="done" style="color: #FF9553"></div>
+                    <div class="number" v-text="done" style="color: #85BB7A"></div>
                 </div>
             </el-col>
             <el-col :span="4" id="score-chart">
@@ -51,12 +51,12 @@
             </el-table-column>
             <el-table-column prop="inProgress" label="In Progress" align="center">
                 <template #default="scope">
-                    <div style="color: #85BB7A">{{ scope.row.inProgress }}</div>
+                    <div style="color: #FF9553">{{ scope.row.inProgress }}</div>
                 </template>
             </el-table-column>
             <el-table-column prop="done" label="Done" align="center">
                 <template #default="scope">
-                    <div style="color: #FF9553">{{ scope.row.done }}</div>
+                    <div style="color: #85BB7A">{{ scope.row.done }}</div>
                 </template>
             </el-table-column>
             <el-table-column prop="rate" label="Rate" align="center">
