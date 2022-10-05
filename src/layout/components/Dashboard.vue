@@ -16,7 +16,7 @@
         </el-scrollbar>
     </div>
     <div id="score">
-        <el-link id="score-title" :underline="false" href="/healthScore">Team Member & Team Health Score</el-link>
+        <el-link id="score-title" :underline="false" href="/healthScore/team">Team Member & Team Health Score</el-link>
         <HealthScoreChart />
     </div>
 </template>

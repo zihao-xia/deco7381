@@ -16,7 +16,7 @@
                         <router-view></router-view>
                     </el-main>
                     <!-- Dashboard -->
-                    <div id="dashboard" v-show="!$route.meta.hideDashboard">
+                    <div id="dashboard" v-if="!$route.meta.hideDashboard">
                         <dashboard />
                     </div>
                 </div>

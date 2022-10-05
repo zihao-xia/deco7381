@@ -8,7 +8,8 @@ export const routes = [
         component: Layout,
         meta: {
             title: 'Home'
-        }, children: [
+        },
+        children: [
             {
                 path: '/healthScore',
                 name: 'Health Score',
@@ -16,7 +17,25 @@ export const routes = [
                     title: 'Health Score',
                     hideDashboard: true
                 },
-                component: () => import('../pages/healthscore.vue')
+                component: () => import('../pages/healthscore.vue'),
+                children: [
+                    {
+                        path: '/healthScore/team',
+                        name: 'Team Health Score',
+                        meta: {
+                            title: 'Team Health Score'
+                        },
+                        component: () => import('../pages/components/teamhealthscore.vue')
+                    },
+                    {
+                        path: '/healthScore/personal',
+                        name: 'Personal Health Score',
+                        meta: {
+                            title: 'Personal Health Score'
+                        },
+                        component: () => import('../pages/components/personalhealthscore.vue')
+                    }
+                ]
             }
         ]
     },
