@@ -36,6 +36,24 @@ export const routes = [
                         component: () => import('../pages/components/personalhealthscore.vue')
                     }
                 ]
+            },
+            {
+                path: '/tutor',
+                name: 'Tutor',
+                meta: {
+                    title: 'Tutor',
+                    hideDashboard: true
+                },
+                component: () => import('../pages/tutor.vue')
+            },
+            {
+                path: '/teams/:course',
+                name: 'Teams',
+                meta: {
+                    title: 'Teams',
+                    hideDashboard: true
+                },
+                component: () => import('../pages/teams.vue')
             }
         ]
     },

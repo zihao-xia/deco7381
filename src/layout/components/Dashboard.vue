@@ -57,8 +57,8 @@ export default {
 }
 
 #goals, #score {
-        padding-top: 20px;
-        height: 550px;
+    padding-top: 20px;
+    height: 550px;
 }
 
 #title, #goals {
