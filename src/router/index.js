@@ -11,6 +11,11 @@ export const routes = [
         },
         children: [
             {
+                path: '/',
+                name: 'Home',
+                component: () => import('@/components/home.vue')
+            },
+            {
                 path: '/healthScore',
                 name: 'Health Score',
                 meta: {
@@ -54,6 +59,22 @@ export const routes = [
                     hideDashboard: true
                 },
                 component: () => import('../pages/teams.vue')
+            },
+            {
+                path: '/user',
+                name: 'User Info',
+                meta: {
+                    title: 'User Info'
+                },
+                component: () => import('@/components/userinfo.vue')
+            },
+            {
+                path: '/goals',
+                name: 'Goals',
+                meta: {
+                    title: 'Goals'
+                },
+                component: () => import('@/components/goals.vue')
             }
         ]
     },
@@ -64,48 +85,6 @@ export const routes = [
             title: 'Login'
         },
         component: () => import('@/views/login.vue')
-    },
-    {
-        path: '/notification',
-        name: 'Notification',
-        meta: {
-            title: 'Notification'
-        },
-        component: Layout
-    },
-    {
-        path: '/myBoard',
-        name: 'My Board',
-        meta: {
-            title: 'My Board'
-        },
-        component: Layout
-    },
-    {
-        path: '/more',
-        name: 'Show More',
-        meta: {
-            title: 'Show More'
-        },
-        component: Layout,
-        children: [
-            {
-                path: '/goals',
-                name: 'Goals',
-                meta: {
-                    title: 'Goals'
-                },
-                component: Layout
-            },
-            {
-                path: '/messages',
-                name: 'Messages',
-                meta: {
-                    title: 'Messages'
-                },
-                component: Layout
-            }
-        ]
     }
 ]
 

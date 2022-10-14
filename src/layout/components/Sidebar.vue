@@ -11,7 +11,7 @@
         >
           <el-row>
             <el-col id="menu-title">
-              <span><img src="@/assets/Logo.png" alt="logo" style="width: 50px;"></span>
+              <span><img src="@/assets/images/Logo.png" alt="logo" style="width: 50px;"></span>
               <p>Teamwork</p>
             </el-col>
           </el-row>
@@ -34,7 +34,7 @@
             <el-icon><Bell /></el-icon>
             <span>Notification</span>
           </el-menu-item>
-          <el-menu-item index="">
+          <el-menu-item index="/user">
             <el-icon><DataBoard /></el-icon>
             <span>My Board</span>
           </el-menu-item>
@@ -43,7 +43,7 @@
               <span class="sub-menu-title">Show More</span>
             </template>
             <el-menu-item-group>
-              <el-menu-item index="">
+              <el-menu-item index="/goals">
                 <el-icon><Trophy /></el-icon>Goals
               </el-menu-item>
               <el-menu-item index="">

@@ -5,7 +5,7 @@
         :key="course"
         class="course"
         :to="'/teams/' + course">
-            <img src="@/assets/course.png" alt="course">
+            <img src="@/assets/images/course.png" alt="course">
             <div>{{ course }}</div>
         </router-link>
     </div>

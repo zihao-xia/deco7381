@@ -24,8 +24,8 @@
         </div>
         <template #dropdown>
             <el-dropdown-menu>
-              <el-dropdown-item command="a">My Board</el-dropdown-item>
-              <el-dropdown-item command="e" divided>Sign out</el-dropdown-item>
+              <el-dropdown-item><router-link to="/user">My Board</router-link></el-dropdown-item>
+              <el-dropdown-item>Sign out</el-dropdown-item>
             </el-dropdown-menu>
         </template>
         </el-dropdown>

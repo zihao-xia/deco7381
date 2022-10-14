@@ -8,7 +8,7 @@
                 <el-row>
                     <el-col :span="4"></el-col>
                     <el-col :span="16">
-                        <div style="margin-bottom: 40px;"><img src="../assets/logo_with_title.png" alt="Logo" style="width: 100%;"></div>
+                        <div style="margin-bottom: 40px;"><img src="../assets/images/logo_with_title.png" alt="Logo" style="width: 100%;"></div>
                     </el-col>
                 </el-row>
                 <el-form-item label="Email">
@@ -51,7 +51,7 @@ const login = () => {
 
 <style scoped>
 #background {
-    background: url("../assets/background_image.jpg") no-repeat;
+    background: url("../assets/images/background_image.jpg") no-repeat;
     width: 100%;
     height: 100%;
     position: fixed;
