@@ -14,11 +14,17 @@
         </el-breadcrumb>
       </div>
 
+      <div class="nav-router">
+        <router-link to="/calendar">Calendar</router-link>
+        <el-divider direction="vertical" />
+        <router-link to="/storyboard">Storyboard</router-link>
+      </div>
+
       <!-- user info -->
       <div class="nav-right">
         <el-dropdown class="nav-menu">
         <div class="avatar-wrapper">
-            <el-icon><Avatar /></el-icon>
+            <el-icon><UserFilled /></el-icon>
             <span>Tim</span>
             <el-icon><CaretBottom /></el-icon>
         </div>
@@ -91,6 +97,9 @@ export default {
   .el-breadcrumb {
     line-height: 50px;
     display: inline-block;
+  }
+  .nav-router {
+    line-height: 50px;
   }
   .nav-menu {
     cursor: pointer;

@@ -61,6 +61,15 @@ export const routes = [
                 component: () => import('../pages/teams.vue')
             },
             {
+                path: '/notification',
+                name: 'Notification',
+                meta: {
+                    title: 'Notification',
+                    hideDashboard: true
+                },
+                component: () => import('../pages/notification.vue')
+            },
+            {
                 path: '/user',
                 name: 'User Info',
                 meta: {
@@ -75,6 +84,33 @@ export const routes = [
                     title: 'Goals'
                 },
                 component: () => import('@/components/goals.vue')
+            },
+            {
+                path: '/calendar',
+                name: 'Calendar',
+                meta: {
+                    title: 'Calendar',
+                    hideDashboard: true
+                },
+                component: () => import('../pages/calendar.vue')
+            },
+            {
+                path: '/storyboard',
+                name: 'Storyboard',
+                meta: {
+                    title: 'Storyboard',
+                    hideDashboard: true
+                },
+                component: () => import('../pages/storyboard.vue')
+            },
+            {
+                path: '/tutorNotification',
+                name: 'Tutor Notification',
+                meta: {
+                    title: 'Tutor Notification',
+                    hideDashboard: true
+                },
+                component: () => import('../pages/tutornotification.vue')
             }
         ]
     },

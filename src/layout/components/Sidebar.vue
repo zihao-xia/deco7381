@@ -30,7 +30,7 @@
             <el-icon><HomeFilled /></el-icon>
             <span>Home</span>
           </el-menu-item>
-          <el-menu-item index="">
+          <el-menu-item index="/notification">
             <el-icon><Bell /></el-icon>
             <span>Notification</span>
           </el-menu-item>
