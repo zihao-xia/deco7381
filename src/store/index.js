@@ -1,17 +1,25 @@
+import Vuex from 'vuex'
+// import app from './modules/app'
+// import permission from './modules/permission'
+// import user from './modules/user'
+import getters from './getters'
 import { createStore } from 'vuex'
+import user from './modules/user'
 
-export default createStore({
-  state: {
-    // 状态变量
+const store = createStore({
+  state () {
+    return {
+      count: 0
+    }
   },
   mutations: {
-    // 状态更改的地方
-    // 这里只能进行同步代码
-  },
-  actions: {
-    // 异步操作mutations （变相让mutation支持异步）
+    increment (state) {
+      state.count++
+    }
   },
   modules: {
-    // vuex 模块化
+    user
   }
 })
+
+export default store

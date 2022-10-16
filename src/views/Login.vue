@@ -1,9 +1,11 @@
 <template>
-    <div id="background">
-        <div id="form">
+    <div class="background">
+        <div class="login-form">
             <el-form
-            :label-position="labelPosition"
-            :model="form"
+            ref="loginFormRef"
+            label-position="top"
+            :model="loginForm"
+            :rules="loginRules"
             label-width="120px">
                 <el-row>
                     <el-col :span="4"></el-col>
@@ -11,18 +13,18 @@
                         <div style="margin-bottom: 40px;"><img src="../assets/images/logo_with_title.png" alt="Logo" style="width: 100%;"></div>
                     </el-col>
                 </el-row>
-                <el-form-item label="Email">
-                    <el-input v-model="form.email" :prefix-icon="User" size="large" placeholder="Enter your UQ Email" />
+                <el-form-item label="Username" prop="username">
+                    <el-input v-model="loginForm.username" :prefix-icon="User" size="large" placeholder="Enter Your Username" />
                 </el-form-item>
-                <el-form-item label="Password">
-                    <el-input v-model="form.password" type="password" :prefix-icon="Lock" size="large" placeholder="Password" />
+                <el-form-item label="Password" prop="password">
+                    <el-input v-model="loginForm.password" type="password" :prefix-icon="Lock" size="large" placeholder="Password" />
                 </el-form-item>
                 <el-row justify="space-between" style="margin-bottom: 40px;">
                     <el-col :span="8">
                         <div>No account? Sign up</div>
                     </el-col>
                     <el-col :span="7">
-                        <div>Forget password</div>
+                        <div>Forgot password</div>
                     </el-col>
                 </el-row>
                 <el-form-item>
@@ -34,23 +36,126 @@
 </template>
 
 <script setup>
-import { ref, reactive } from 'vue'
-import { User, Lock } from '@element-plus/icons-vue'
+import { User, Lock} from '@element-plus/icons-vue'
+import { ref } from 'vue'
+import { loginByUsername } from '@/api/login'
 
-const labelPosition = ref('top')
+// const validateEmail = (rule, value, callback) => {
+//     if (validateEmail == null) {
+//         callback(new Error('Enter your UQ Email'))
+//     } else {
+//         callback()
+//     }
+// }
 
-const form = reactive({
-    email: '',
-    password: '',
+// const validatePassword = (rule, value, callback) => {
+//     callback()
+// }
+
+const loginForm = ref({
+    username: '',
+    password: ''
 })
 
+const loginRules = ref({
+    username: [
+        {
+            required: true,
+            message: 'Enter Your Username',
+            trigger: 'blur'
+        }
+    ],
+    password: [
+        {
+            required: true,
+            message: 'Enter Your Password',
+            trigger: 'blur'
+        },
+        {
+            min: 6,
+            message: 'Password length should be at least 6',
+            trigger: 'blur'
+        }
+    ]
+})
+
+const loginFormRef = ref(null)
+
 const login = () => {
-    console.log('login!')
+    loginFormRef.value.validate(async valid => {
+        if (valid) {
+            const res = await loginByUsername(loginForm.value.username, loginForm.value.password)
+            console.log(res)
+        } else {
+            console.log('failed')
+            return false
+        }
+    })
 }
+
+// export default {
+//     name: 'Login',
+//     setup() {
+//         const loginFormRef = ref(null)
+//         return {
+//             User,
+//             Lock,
+//             loginFormRef
+//         }
+//     },
+//     data() {
+//         return {
+//             loginForm,
+//             loginRules,
+//             // loginRules: {
+//             //     email: [{
+//             //     required: true,
+//             //     trigger: 'blur',
+//             //     validator: validateEmail
+//             //     }],
+//             //     password: [{
+//             //     required: true,
+//             //     trigger: 'blur',
+//             //     validator: validatePassword
+//             // }]
+//             // }
+//         }
+//     },
+//     methods: {
+//         login() {
+//             console.log(loginFormRef)
+//             loginFormRef.value.validate(valid => {
+//                 if (valid) {
+//                     console.log('login!')
+//                 } else {
+//                     console.log('failed!')
+//                     return false
+//                 }
+//             })
+//         }
+//     }
+    // methods: {
+    //     login() {
+    //         loginForm.validate(valid => {
+    //             if (valid) {
+    //                 this.$store.dispatch('LoginByEmail', this.loginForm).then(() => {
+    //                     this.$router.push({
+    //                         path: '/'
+    //                     })
+    //                 }).catch(response => {
+    //                     console.log(response.data.message)
+    //                 })
+    //             } else {
+    //                 return false
+    //             }
+    //         })
+    //     }
+    // }
+// }
 </script>
 
 <style scoped>
-#background {
+.background {
     background: url("../assets/images/background_image.jpg") no-repeat;
     width: 100%;
     height: 100%;
@@ -58,7 +163,7 @@ const login = () => {
     background-size: cover;
 }
 
-#form {
+.login-form {
     width: 700px;
     height: 700px;
     border-radius: 8px;

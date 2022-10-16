@@ -5,21 +5,8 @@ import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
 import '@/styles/index.scss'
-import { createStore } from 'vuex'
+import store from '@/store'
 import VueApexCharts from 'vue3-apexcharts'
-
-const store = createStore({
-  state () {
-    return {
-      count: 0
-    }
-  },
-  mutations: {
-    increment (state) {
-      state.count++
-    }
-  }
-})
 
 const app = createApp(App).use(router).use(ElementPlus).use(store).use(VueApexCharts)
 for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
