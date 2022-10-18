@@ -6,6 +6,7 @@ Element Plus: https://element-plus.org/en-US/
 Apex Charts: https://apexcharts.com/
 
 ## Project Setup
+You need to install Node.js of the latest version first.
 
 ```sh
 npm install
