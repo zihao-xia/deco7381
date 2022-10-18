@@ -12,43 +12,64 @@
     </div>
 
     <div class="container">
-        <router-link class="teams" v-for="team in filteredData" :key="team" to="/healthScore/team">
+        <div class="teams" v-for="team in filteredData" :key="team" to="/healthScore/team">
             <div class="name">{{ team.name }}</div>
             <div class="project">Project: {{ team.project }}</div>
             <div class="leader">Team Leader: {{ team.leader }}</div>
-        </router-link>
+            <el-button type="primary" plain @click="apply(team)">Apply</el-button>
+        </div>
     </div>
 </template>
 
 <script>
 import { ref } from '@vue/reactivity'
+import { listteam, updateUserTeam } from '@/api/team'
+import store from '@/store'
+import { ElMessage } from 'element-plus'
+
 let search = ref('')
-let teams = [
-    {name: 'Team 1', project: 'AR bike glass', leader: 'Tim'},
-    {name: 'Team 2', project: 'AR bike glass', leader: 'Ben'},
-    {name: 'Team 3', project: 'AR bike glass', leader: 'Lucy'},
-    {name: 'Team 4', project: 'AR bike glass', leader: 'Jack'},
-    {name: 'Team 5', project: 'AR bike glass', leader: 'Bob'},
-    {name: 'Team 6', project: 'AR bike glass', leader: 'Alex'}
-]
-let teamsCopy = Object.assign(teams)
 
 export default {
     name: 'Teams',
     data() {
         return {
-            teams,
-            search
+            teams: [],
+            teamsCopy: [],
+            search,
+            query: {}
         }
     },
+    created() {
+        this.getList()
+    },
     methods: {
+        getList() {
+            listteam(this.query).then(res => {
+                console.log(res.data.data)
+                this.teams = res.data.data
+                this.teamsCopy = Object.assign(this.teams)
+            })
+        },
         searchHandler() {
             if (search.value != '') {
-                teams = teams.filter(team => (team.name).toLowerCase().match(search.value.toLowerCase()))
+                this.teams = this.teams.filter(team => (team.name).toLowerCase().match(search.value.toLowerCase()))
             } else {
-                teams = teamsCopy
+                this.teams = this.teamsCopy
             }
-            return teams
+            return this.teams
+        },
+        apply(team) {
+            updateUserTeam({
+                id: store.getters.userId,
+                teamId: team.id
+            }).then(res => {
+                ElMessage({
+                    message: 'You have joined ' + team.name,
+                    type: 'success'
+                })
+            }).catch(res => {
+                ElMessage.error('Sorry, you cannot join for now')
+            })
         }
     },
     computed: {
@@ -73,7 +94,6 @@ export default {
 }
 
 .teams {
-    display: block;
     width: 300px;
     height: 200px;
     border: 2px solid #CCCCCC;

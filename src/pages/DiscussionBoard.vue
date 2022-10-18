@@ -6,7 +6,7 @@
   </div>
 
   <div class="footer">
-    <div class="content-box">
+    <el-scrollbar class="content-box">
       <div
         class="content-item"
         v-for="(item, index) in questions"
@@ -16,9 +16,9 @@
           <div class="content-item-head-title">
             <span
               class="head-title-color"
-              :style="{ backgroundColor: item.status }"
+              :style="{ backgroundColor: item.color }"
             ></span>
-            <span class="head-title-name">{{ item.title }}</span>
+            <span class="head-title-name">{{ item.name }}</span>
           </div>
           <el-icon><UserFilled /></el-icon>
         </div>
@@ -26,22 +26,22 @@
           {{ item.content }}
         </div>
         <div class="content-item-footer">
-          <span class="footer-time">{{ item.time }}</span>
+          <span class="footer-time">{{ item.createTime }}</span>
           <div class="footer-status">
             <span
               class="footer-color"
-              :style="{ backgroundColor: item.status }"
+              :style="{ backgroundColor: item.color }"
             ></span>
             <span class="footer-name" @click="handleChangeStatus(item)">{{
-              item.status_name
+              item.username
             }}</span>
           </div>
         </div>
       </div>
-      <div class="add-btn" @click="handleAddBtnClick">
+      <div class="add-btn" @click="askQuestionVisible = true">
         <el-icon color="#FFFFFF" :size="20"><Plus /></el-icon>
       </div>
-    </div>
+    </el-scrollbar>
     <div class="content-box">
       <div
         class="content-item"
@@ -77,9 +77,7 @@
           </div>
         </div>
       </div>
-      <!-- <div class="add-btn">
-        <img src="@/assets/imgs/add.svg" class="add-img" alt="" />
-      </div> -->
+
     </div>
     <div class="content-box">
       <div class="content-item" v-for="(item, index) in done" :key="index">
@@ -87,9 +85,9 @@
           <div class="content-item-head-title">
             <span
               class="head-title-color"
-              :style="{ backgroundColor: item.status }"
+              :style="{ backgroundColor: item.color }"
             ></span>
-            <span class="head-title-name">{{ item.title }}</span>
+            <span class="head-title-name">{{ item.name }}</span>
           </div>
           <el-icon><UserFilled /></el-icon>
         </div>
@@ -97,27 +95,20 @@
           {{ item.content }}
         </div>
         <div class="content-item-footer">
-          <span class="footer-time">{{ item.time }}</span>
+          <span class="footer-time">{{ item.createTime }}</span>
           <div class="footer-status">
             <span
               class="footer-color"
-              :style="{ backgroundColor: item.status }"
+              :style="{ backgroundColor: item.color }"
             ></span>
             <span class="footer-name" @click="handleChangeStatus(item)">{{
-              item.status_name
+              item.username
             }}</span>
           </div>
         </div>
       </div>
     </div>
   </div>
-
-  <s-dialog
-    :visible="visible"
-    v-model="formData"
-    @on-submit="handleSubmit"
-    @on-close="visible = false"
-  ></s-dialog>
 
   <el-dialog :title="dialogTitle" v-model="dialogVisible" width="35%">
     <el-card class="el-card-d" shadow="always">
@@ -147,39 +138,38 @@
       </div>
     </el-card>
   </el-dialog>
+
+  <el-dialog v-model="askQuestionVisible" title="Ask Question">
+        <el-form :model="askQuestionForm" :rules="askQuestionRules" ref="askQuestionForm">
+            <el-form-item label="Title" label-width="100px" prop="name">
+                <el-input v-model="askQuestionForm.name" />
+            </el-form-item>
+            <el-form-item label="Content" label-width="100px" prop="content">
+                <el-input v-model="askQuestionForm.content" />
+            </el-form-item>
+            <el-form-item label="Color" label-width="100px" prop="color">
+                <el-select v-model="askQuestionForm.color" placeholder="Select Color">
+                  <el-option label="Red" value="#E71811" />
+                  <el-option label="Blue" value="#409EFF" />
+                  <el-option label="Yellow" value="#FFCA28" />
+                  <el-option label="Green" value="#58A55C" />
+                  <el-option label="Purple" value="#8C15B8" />
+                </el-select>
+            </el-form-item>
+        </el-form>
+        <template #footer>
+            <span class="dialog-footer">
+                <el-button @click="askQuestionVisible = false">Cancel</el-button>
+                <el-button type="primary" @click="ask('askQuestionForm')">Ask</el-button>
+            </span>
+        </template>
+    </el-dialog>
+
 </template>
 
 <script>
-import Popup from './components/Popup.vue';
-
-const DATA = [
-  {
-    id: 1,
-    title: 'check UQ email',
-    content: 'before 12pm',
-    time: '2022-10-1',
-    status: '#e83939',
-    status_name: 'in progress',
-  },
-  {
-    id: 2,
-
-    title: 'Studio meeting',
-    content: 'before 1pm on STCAL building Four room 202',
-    time: '2022-10-2',
-    status: '#03bb7a',
-    status_name: 'done',
-  },
-
-  {
-    id: 3,
-    title: 'Group Meeting',
-    content: 'before 1pm online zoom number is 876523456;',
-    time: '2022-10-3',
-    status: '#e83939',
-    status_name: 'in progress',
-  },
-];
+import { listboard, askQuestion } from '@/api/board'
+import { reactive } from 'vue'
 
 const DATA_COMMENTS = [
   {
@@ -218,7 +208,6 @@ const COMMENTS = [
 
 export default {
   name: 'DiscussionBoard',
-  components: { Popup },
   data() {
     return {
       formData: {
@@ -229,89 +218,63 @@ export default {
           color: '',
         },
       },
-      visible: false,
-      list: DATA,
+      askQuestionVisible: false,
+      askQuestionForm: reactive({
+        name: '',
+        content: '',
+        color: '',
+        type: 1
+      }),
+      askQuestionRules: {
+        name: [{
+            required: true,
+            message: 'Enter your question title',
+            trigger: 'blur'
+        }],
+        content: [{
+            required: true,
+            message: 'Enter your question content',
+            trigger: 'blur'
+        }],
+        color: [{
+            required: true,
+            message: 'Enter your favorite color',
+            trigger: 'change'
+        }]
+      },
+      list: [],
       questions: [],
       done: [],
       comments: DATA_COMMENTS,
-
       dialogVisible: false,
       dialogTitle: 'Comments',
-
       messages: COMMENTS,
+      query: {}
     };
   },
   mounted() {
-    // TODO api request
-    this.questions = this.list.filter(
-      item => item.status_name === 'in progress'
-    );
-    this.done = this.list.filter(item => item.status_name === 'done');
+    this.getList()
   },
   methods: {
-    handleSubmit() {
-      const timer = new Date();
-      //TODO api request
-      if (this.formData.form.color === '#03bb7a') {
-        this.done.push({
-          title: this.formData.form.title,
-          content: this.formData.form.content,
-          time:
-            timer.getFullYear() +
-            '-' +
-            timer.getMonth() +
-            '-' +
-            timer.getDay() +
-            1,
-          status: this.formData.form.color,
-          status_name: 'done',
-        });
-      }
-      if (this.formData.form.color === '#e83939') {
-        this.questions.push({
-          title: this.formData.form.title,
-          content: this.formData.form.content,
-          time:
-            timer.getFullYear() +
-            '-' +
-            timer.getMonth() +
-            '-' +
-            timer.getDay() +
-            1,
-          status: this.formData.form.color,
-          status_name: 'in progress',
-        });
-      }
-
-      this.visible = false;
-      this.formData.form.title = '';
-      this.formData.form.content = '';
-      this.formData.form.commits = [];
-      this.formData.form.color = '';
+    getList() {
+      listboard(this.query).then(res => {
+        this.list = res.data.data
+        this.questions = this.list.filter(item => item.type === 1)
+        this.done = this.list.filter(item => item.type === 2)
+      })
     },
-    handleAddBtnClick() {
-      this.visible = true;
+    ask(form) {
+      this.$refs[form].validate(valid => {
+          if (valid) {
+              askQuestion(this.askQuestionForm).then(res => {
+                  this.askQuestionVisible = false
+                  this.getList()
+              }).catch(res => {
+                  console.log(res)
+              })
+          }
+      })
     },
-
-    handleChangeStatus(item) {
-      if (item.status_name === 'in progress') {
-        this.questions = this.questions.filter(ele => ele.id != item.id);
-        this.done.push({
-          ...item,
-          status: '#03bb7a',
-          status_name: 'done',
-        });
-        return;
-      }
-
-      this.done = this.done.filter(ele => ele.id != item.id);
-      this.questions.push({
-        ...item,
-        status: '#e83939',
-        status_name: 'in progress',
-      });
-    },
-
     handleShowComment(item) {
       this.dialogTitle = 'Question is ：' + item.title;
       this.dialogVisible = true;
@@ -365,6 +328,7 @@ export default {
   text-align: center;
   line-height: 39px;
   background-color: #8c15b8;
+  cursor: pointer;
 }
 
 .content-item {
@@ -437,5 +401,9 @@ export default {
 }
 .comments {
   width: 100%;
+}
+
+.addbtn {
+  cursor: pointer;
 }
 </style>

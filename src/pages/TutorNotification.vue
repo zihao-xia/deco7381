@@ -235,7 +235,6 @@ const COMMENTS = [
 
 export default {
   name: 'TutorNotification',
-  components: {},
   data() {
     return {
       TEAM1:[

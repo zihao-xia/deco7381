@@ -138,10 +138,9 @@ export default {
     methods: {
         getTasks() {
 			listTasks(store.getters.token).then(res => {
-				this.tasks = res.data.data
-				this.inProgressTasks = this.tasks.filter(this.isInProgress)
-				this.futureTasks = this.tasks.filter(this.isFuture)
-				this.doneTasks = this.tasks.filter(this.isDone)
+				this.inProgressTasks = res.data.data.filter(this.isInProgress)
+				this.futureTasks = res.data.data.filter(this.isFuture)
+				this.doneTasks = res.data.data.filter(this.isDone)
 			})
 		},
 		isInProgress(task) {

@@ -46,17 +46,24 @@
               <el-menu-item index="/taskmanagement">
                 <el-icon><Trophy /></el-icon>Task Management
               </el-menu-item>
-              <el-menu-item index="">
-                <el-icon><ChatLineRound /></el-icon>Messages
+            </el-menu-item-group>
+            <el-menu-item-group>
+              <el-menu-item index="/tutor">
+                <el-icon><Service /></el-icon>Tutor Page
               </el-menu-item>
             </el-menu-item-group>
-            <el-sub-menu v-for="workspace in workspaces" :key="workspace.name" :index="workspace.name">
+            <el-menu-item-group>
+              <el-menu-item index="/tutorNotification">
+                <el-icon><Bell /></el-icon>Tutor Notification
+              </el-menu-item>
+            </el-menu-item-group>
+            <el-sub-menu v-for="workspace in workspaces" :key="workspace" :index="workspace.name">
               <template #title>
                 <span class="sub-menu-title">{{ workspace.name }}</span>
               </template>
               <el-menu-item-group>
-                <el-menu-item v-for="(member, i) in workspace.members" :key="i">
-                  <el-icon><User /></el-icon>{{ member }}
+                <el-menu-item>
+                  <el-icon><User /></el-icon>{{ workspace.leader }}
                 </el-menu-item>
               </el-menu-item-group>
             </el-sub-menu>
@@ -69,6 +76,7 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import { listteam } from '@/api/team'
 
 export default {
   name: 'Sidebar',
@@ -80,10 +88,8 @@ export default {
   },
   data(){
     return {
-      workspaces: [
-        { name: 'Workspace1', members: ['Tim', 'Ben'] },
-        { name: 'Workspace2', members: ['Tim', 'Ben'] }
-      ]
+      workspaces: [],
+      query: {}
     }
   },
   computed: {
@@ -91,10 +97,16 @@ export default {
       'routers'
     ])
   },
-  // mounted() {
-  //   this.$store.dispatch('routers/getRouters')
-  //   console.log(this.routers)
-  // }
+  created() {
+    this.getList()
+  },
+  methods: {
+    getList() {
+      listteam(this.query).then(res => {
+          this.workspaces = res.data.data
+      })
+    }
+  }
 }
 </script>
 

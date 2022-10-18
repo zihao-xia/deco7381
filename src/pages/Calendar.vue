@@ -7,7 +7,7 @@
           {{ data.day.split('-').slice(2).join('')}}
         </div>
         <div>
-          <span class="remark-text calendar-time" v-for="(item, index) in dealMyDate(data.day)" :key="index">
+          <span class="remark-text calendar-time" v-for="(item, index) in dealDate(data.day)" :key="index">
             {{ item }}
           </span>
         </div>
@@ -18,36 +18,35 @@
 
 
 <script>
-import { reactive } from 'vue'
-
-const resDate = reactive([
-  { date: '2022-10-01', content: 'Task 1' },
-  { date: '2022-10-02', content: 'Task 1' },
-  { date: '2022-10-03', content: 'Task 1' },
-  { date: '2022-10-11', content: 'Task 2' },
-  { date: '2022-10-12', content: 'Task 2' },
-  { date: '2022-10-13', content: 'Task 2' },
-  { date: '2022-10-15', content: 'Task 3' },
-  { date: '2022-10-16', content: 'Task 3' },
-])
-
-const dealMyDate = (v) => {
-  let res = '';
-  for (let index = 0; index < resDate.length; index++) {
-    if (resDate[index].date == v) {
-      res = resDate[index].content;
-      break;
-    }
-  }
-  return res;
-}
+import store from '@/store'
+import { listTasks } from '@/api/tasks'
 
 export default {
   name: 'Calendar',
   data() {
     return {
       value: new Date(),
-      dealMyDate
+      tasks: []
+    }
+  },
+  mounted() {
+    this.getTasks()
+  },
+  methods: {
+    getTasks() {
+			listTasks(store.getters.token).then(res => {
+				this.tasks = res.data.data
+			})
+		},
+    dealDate(day) {
+      let task = ''
+      for (let i = 0; i < this.tasks.length; i++) {
+        if (this.tasks[i].dueTime.includes(day)) {
+          task = this.tasks[i].name
+          break
+        }
+      }
+      return task
     }
   }
 }

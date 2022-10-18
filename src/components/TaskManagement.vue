@@ -38,9 +38,10 @@
 
 		<h2>Personal Health Score Detail</h2>
 		<el-table class="table" :data="healthScore" stripe>
-			<el-table-column prop="task" label="Task" />
-			<el-table-column prop="time" label="Time" />
-			<el-table-column prop="status" label="Status" />
+			<el-table-column prop="task" label="Task" align="center" />
+			<el-table-column prop="time" label="Time" align="center" />
+			<el-table-column prop="status" label="Status" align="center" />
+			<el-table-column prop="score" label="Score" width="80" align="center" />
 		</el-table>
 	</div>
 
@@ -78,22 +79,26 @@ const healthScore = [
 	{
 		task: 'Complete assignment 1',
 		time: '2022-10-01',
-		status: 'Finished'
+		status: 'Finished',
+		score: '+5'
 	},
 	{
 		task: 'Complete quiz 1',
 		time: '2022-10-02',
-		status: 'Overdue'
+		status: 'Overdue',
+		score: '-5'
 	},
 	{
 		task: 'Prepare for week 3 content',
 		time: '2022-10-03',
-		status: 'Finished'
+		status: 'Finished',
+		score: '+5'
 	},
 	{
 		task: 'Complete quiz 2',
 		time: '2022-10-04',
-		status: 'Overdue'
+		status: 'Overdue',
+		score: '-5'
 	}
 ]
 
