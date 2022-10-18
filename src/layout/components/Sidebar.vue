@@ -43,8 +43,8 @@
               <span class="sub-menu-title">Show More</span>
             </template>
             <el-menu-item-group>
-              <el-menu-item index="/goals">
-                <el-icon><Trophy /></el-icon>Goals
+              <el-menu-item index="/taskmanagement">
+                <el-icon><Trophy /></el-icon>Task Management
               </el-menu-item>
               <el-menu-item index="">
                 <el-icon><ChatLineRound /></el-icon>Messages

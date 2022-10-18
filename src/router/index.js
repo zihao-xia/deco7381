@@ -73,17 +73,17 @@ export const routes = [
                 path: '/user',
                 name: 'User Info',
                 meta: {
-                    title: 'User Info'
+                    title: 'My Board'
                 },
                 component: () => import('@/components/userinfo.vue')
             },
             {
-                path: '/goals',
-                name: 'Goals',
+                path: '/taskmanagement',
+                name: 'TaskManagement',
                 meta: {
-                    title: 'Goals'
+                    title: 'Task Management'
                 },
-                component: () => import('@/components/goals.vue')
+                component: () => import('@/components/taskmanagement.vue')
             },
             {
                 path: '/calendar',
@@ -95,13 +95,13 @@ export const routes = [
                 component: () => import('../pages/calendar.vue')
             },
             {
-                path: '/storyboard',
-                name: 'Storyboard',
+                path: '/discussionboard',
+                name: 'DiscussionBoard',
                 meta: {
-                    title: 'Storyboard',
+                    title: 'Discussion Board',
                     hideDashboard: true
                 },
-                component: () => import('../pages/storyboard.vue')
+                component: () => import('../pages/discussionboard.vue')
             },
             {
                 path: '/tutorNotification',
@@ -121,6 +121,14 @@ export const routes = [
             title: 'Login'
         },
         component: () => import('@/views/login.vue')
+    },
+    {
+        path: '/signup',
+        name: 'SignUp',
+        meta: {
+            title: 'Sign Up'
+        },
+        component: () => import('@/views/signup.vue')
     }
 ]
 
@@ -128,16 +136,5 @@ const router = createRouter({
     history: createWebHistory('/'),
     routes
 })
-
-// navigation guards
-// router.beforeEach((to) => {
-//     // check if logged in by token
-//     let token = localStorage.getItem('Token')
-//     if (token && to.path === '/login') {
-//         return '/'
-//     } else if (!token && to.path !== '/login') {
-//         return '/login'
-//     }
-// })
 
 export default router

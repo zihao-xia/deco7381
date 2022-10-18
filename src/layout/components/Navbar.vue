@@ -17,7 +17,7 @@
       <div class="nav-router">
         <router-link to="/calendar">Calendar</router-link>
         <el-divider direction="vertical" />
-        <router-link to="/storyboard">Storyboard</router-link>
+        <router-link to="/discussionboard">Discussion Board</router-link>
       </div>
 
       <!-- user info -->
@@ -25,13 +25,13 @@
         <el-dropdown class="nav-menu">
         <div class="avatar-wrapper">
             <el-icon><UserFilled /></el-icon>
-            <span>Tim</span>
+            <span>{{ name }}</span>
             <el-icon><CaretBottom /></el-icon>
         </div>
         <template #dropdown>
             <el-dropdown-menu>
               <el-dropdown-item><router-link to="/user">My Board</router-link></el-dropdown-item>
-              <el-dropdown-item>Sign out</el-dropdown-item>
+              <el-dropdown-item @click="logout">Sign out</el-dropdown-item>
             </el-dropdown-menu>
         </template>
         </el-dropdown>
@@ -45,36 +45,44 @@
 </template>
 
 <script>
+import store from '@/store'
+
 export default {
-    name: 'Navbar',
-    props: {
-        open: {
-            type: Boolean,
-            default: true
-        }
-    },
-    data() {
-      return {
-        levelList: null
+  name: 'Navbar',
+  props: {
+      open: {
+          type: Boolean,
+          default: true
       }
-    },
-    watch: {
-      $route() {
-        this.getBreadcrumb()
-      }
-    },
-    created() {
-      this.getBreadcrumb()
-    },
-    methods: {
-        switchSidebar() {
-            this.$emit('switchSidebar')
-        },
-        getBreadcrumb() {
-          const matched = this.$route.matched.filter(item => item.meta && item.meta.title)
-          this.levelList = matched.filter(item => item.meta && item.meta.title && item.meta.breadcrumb !== false)
-        }
+  },
+  data() {
+    return {
+      levelList: null,
+      name: store.getters.name
     }
+  },
+  watch: {
+    $route() {
+      this.getBreadcrumb()
+    }
+  },
+  created() {
+    this.getBreadcrumb()
+  },
+  methods: {
+      switchSidebar() {
+          this.$emit('switchSidebar')
+      },
+      getBreadcrumb() {
+        const matched = this.$route.matched.filter(item => item.meta && item.meta.title)
+        this.levelList = matched.filter(item => item.meta && item.meta.title && item.meta.breadcrumb !== false)
+      },
+      logout() {
+        store.dispatch('user/LogOut').then(() => {
+          location.reload()
+        })
+      }
+  }
 }
 </script>
 

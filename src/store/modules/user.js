@@ -1,63 +1,39 @@
-import { loginByUsername, logout, getUserInfo } from '@/api/login'
-import { getToken, setToken, removeToken } from '@/utils/auth'
+import { loginByUsername, getUserInfo } from '@/api/login'
+import router from '@/router'
 
-const user = {
+export default {
+  namespaced: true,
   state: {
-    user: '',
-    status: '',
-    code: '',
-    token: getToken(),
+    id: '',
+    token: localStorage.getItem('token') || '',
+    type: '',
     name: '',
-    avatar: '',
-    introduction: '',
-    roles: [],
-    perms: [],
-    setting: {
-      articlePlatform: []
-    }
+    teamId: '',
   },
-
   mutations: {
-    SET_CODE: (state, code) => {
-      state.code = code
+    setId(state, id) {
+      state.id = id
     },
-    SET_TOKEN: (state, token) => {
+    setToken(state, token) {
       state.token = token
+      localStorage.setItem('token', token)
     },
-    SET_INTRODUCTION: (state, introduction) => {
-      state.introduction = introduction
+    setType(state, type) {
+      state.type = type
     },
-    SET_SETTING: (state, setting) => {
-      state.setting = setting
-    },
-    SET_STATUS: (state, status) => {
-      state.status = status
-    },
-    SET_NAME: (state, name) => {
+    setName(state, name) {
       state.name = name
     },
-    SET_AVATAR: (state, avatar) => {
-      state.avatar = avatar
-    },
-    SET_ROLES: (state, roles) => {
-      state.roles = roles
-    },
-    SET_PERMS: (state, perms) => {
-      state.perms = perms
+    setTeam(state, teamId) {
+      state.teamId = teamId
     }
   },
-
   actions: {
     LoginByUsername({ commit }, userInfo) {
-      const username = userInfo.username.trim()
       return new Promise((resolve, reject) => {
-        loginByUsername(username, userInfo.password).then(response => {
-          const token = response.data.data.token
-         const username= response.data.data.username
-          console.log("LoginByUsername",response);
-          commit('SET_TOKEN', token)
-          commit('SET_NAME',username)
-          setToken(token)
+        loginByUsername(userInfo.username, userInfo.password).then(res => {
+          commit('setToken', res.data.data.token)
+          router.replace('/')
           resolve()
         }).catch(error => {
           reject(error)
@@ -66,61 +42,24 @@ const user = {
     },
     GetUserInfo({ commit, state }) {
       return new Promise((resolve, reject) => {
-        getUserInfo(state.token).then(response => {
-          const data = response.data.data
-          if (data.perms && data.perms.length > 0) { // 验证返回的perms是否是一个非空数组
-            commit('SET_PERMS', [data.perms])
-          } else {
-            reject('getInfo: perms must be a non-null array !')
-          }
-          //commit('SET_PERMS', ["/dashboard","/user","GET /admin/user/list","/admin"])
-          commit('SET_ROLES', data.roles)
-          commit('SET_NAME', data.name)
-          commit('SET_AVATAR', data.avatar)
-          commit('SET_INTRODUCTION', data.introduction)
-          resolve(response)
+        getUserInfo(state.token).then(res => {
+          const data = res.data.data
+          commit('setId', data.user.id)
+          commit('setType', data.user.type)
+          commit('setName', data.user.name)
+          commit('setTeam', data.user.teamId)
+          resolve(res)
         }).catch(error => {
           reject(error)
         })
       })
     },
-    LogOut({ commit, state }) {
-      //return new Promise((resolve, reject) => {
-      //  logout(state.token).then(() => {
-          commit('SET_TOKEN', '')
-          commit('SET_ROLES', [])
-          commit('SET_PERMS', [])
-          removeToken()
-        //  resolve()
-       // }).catch(error => {
-        //  reject(error)
-       // })
-      //})
-    },
-    FedLogOut({ commit }) {
-      return new Promise(resolve => {
-        commit('SET_TOKEN', '')
-        removeToken()
-        resolve()
-      })
-    },
-    ChangeRoles({ commit, dispatch }, role) {
-      return new Promise(resolve => {
-        commit('SET_TOKEN', role)
-        setToken(role)
-        getUserInfo(role).then(response => {
-          const data = response.data
-          commit('SET_ROLES', data.roles)
-          commit('SET_PERMS', data.perms)
-          commit('SET_NAME', data.name)
-          commit('SET_AVATAR', data.avatar)
-          commit('SET_INTRODUCTION', data.introduction)
-          dispatch('GenerateRoutes', data) // 动态修改权限后 重绘侧边菜单
-          resolve()
-        })
-      })
+    LogOut({ commit }) {
+      commit('setToken', '')
+      commit('setId', '')
+      commit('setType', '')
+      commit('setName', '')
+      commit('setTeam', '')
     }
   }
 }
-
-export default user

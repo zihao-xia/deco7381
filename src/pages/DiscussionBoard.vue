@@ -217,7 +217,7 @@ const COMMENTS = [
 ];
 
 export default {
-  name: 'Storyboard',
+  name: 'DiscussionBoard',
   components: { Popup },
   data() {
     return {

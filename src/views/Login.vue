@@ -21,7 +21,9 @@
                 </el-form-item>
                 <el-row justify="space-between" style="margin-bottom: 40px;">
                     <el-col :span="8">
-                        <div>No account? Sign up</div>
+                        <div>No account?
+                            <router-link to="/signup">Sign up</router-link>
+                        </div>
                     </el-col>
                     <el-col :span="7">
                         <div>Forgot password</div>
@@ -38,19 +40,9 @@
 <script setup>
 import { User, Lock} from '@element-plus/icons-vue'
 import { ref } from 'vue'
-import { loginByUsername } from '@/api/login'
+import { useStore } from 'vuex'
 
-// const validateEmail = (rule, value, callback) => {
-//     if (validateEmail == null) {
-//         callback(new Error('Enter your UQ Email'))
-//     } else {
-//         callback()
-//     }
-// }
-
-// const validatePassword = (rule, value, callback) => {
-//     callback()
-// }
+const store = useStore()
 
 const loginForm = ref({
     username: '',
@@ -84,74 +76,13 @@ const loginFormRef = ref(null)
 const login = () => {
     loginFormRef.value.validate(async valid => {
         if (valid) {
-            const res = await loginByUsername(loginForm.value.username, loginForm.value.password)
-            console.log(res)
+            store.dispatch('user/LoginByUsername', loginForm.value)
         } else {
             console.log('failed')
             return false
         }
     })
 }
-
-// export default {
-//     name: 'Login',
-//     setup() {
-//         const loginFormRef = ref(null)
-//         return {
-//             User,
-//             Lock,
-//             loginFormRef
-//         }
-//     },
-//     data() {
-//         return {
-//             loginForm,
-//             loginRules,
-//             // loginRules: {
-//             //     email: [{
-//             //     required: true,
-//             //     trigger: 'blur',
-//             //     validator: validateEmail
-//             //     }],
-//             //     password: [{
-//             //     required: true,
-//             //     trigger: 'blur',
-//             //     validator: validatePassword
-//             // }]
-//             // }
-//         }
-//     },
-//     methods: {
-//         login() {
-//             console.log(loginFormRef)
-//             loginFormRef.value.validate(valid => {
-//                 if (valid) {
-//                     console.log('login!')
-//                 } else {
-//                     console.log('failed!')
-//                     return false
-//                 }
-//             })
-//         }
-//     }
-    // methods: {
-    //     login() {
-    //         loginForm.validate(valid => {
-    //             if (valid) {
-    //                 this.$store.dispatch('LoginByEmail', this.loginForm).then(() => {
-    //                     this.$router.push({
-    //                         path: '/'
-    //                     })
-    //                 }).catch(response => {
-    //                     console.log(response.data.message)
-    //                 })
-    //             } else {
-    //                 return false
-    //             }
-    //         })
-    //     }
-    // }
-// }
 </script>
 
 <style scoped>
