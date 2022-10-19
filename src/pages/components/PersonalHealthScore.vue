@@ -29,13 +29,15 @@
             </el-table-column>
             <el-table-column label="Operation" align="center">
                 <template #default="scope">
-                    <el-button color="#E83939" v-model="scope.row.name">Alarm</el-button>
+                    <el-button color="#E83939" v-model="scope.row.name" @click="alarm">Alarm</el-button>
                 </template>
             </el-table-column>
         </el-table>
 </template>
 
 <script>
+import { ElMessage } from 'element-plus'
+
 const colors = [
     { color: '#E83939', percentage: 50 },
     { color: '#FF9553', percentage: 80 },
@@ -78,6 +80,14 @@ export default {
         return {
             colors,
             personalScoreTableData
+        }
+    },
+    methods: {
+        alarm() {
+            ElMessage({
+                message: 'You have alarmed the teammate',
+                type: 'success'
+            })
         }
     }
 }
